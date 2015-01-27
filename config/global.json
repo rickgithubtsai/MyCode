@@ -1,0 +1,11 @@
+{
+    "applications": {
+        "_default": {
+            "link": "my-playground"
+        }, 
+        "my-playground": {
+            "applicationId": "2QY04sdetDGA8awp28CiHC7FUxfPnPpcbq7kJkvi", 
+            "masterKey": "vDCB9IMrp9DqkbQf1bkL81ebnMsX8Wj4YQgI92Or"
+        }
+    }
+}
