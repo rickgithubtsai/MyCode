@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>REST Go Go Go</h1>
+
+<div>
+  <p id="demo"></p>
+</div>
+
+<div>
+  <p id="demo2"></p>
+</div>
+
+
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<!-- here is for Parse Create -->
+<!--script>
+  $.ajax({
+  url:"https://api.parse.com/1/classes/GameScore",
+  contentType: "application/json",
+  headers: {
+    'X-Parse-Application-Id' : '2QY04sdetDGA8awp28CiHC7FUxfPnPpcbq7kJkvi',
+    'X-Parse-REST-API-Key' : 'CA4uyiDH68eLiW4OpES1SP5Mp4kGT0eWOjGDXOTe',
+  },
+  data: '{"score":237,"playerName":"Rick","cheatMode":true}',
+  method: 'POST',
+  //dataType: "jsonp",
+  success: function (response) {
+    alert ("here");
+   
+  },
+  error: function (xhr, status) {
+    alert("handle - error: function (xhr, status) {")
+  }
+});</script-->
+
+<!-- here is for Parse Retrieving -->
+<!--script>
+  $.ajax({
+  url:"https://api.parse.com/1/classes/GameScore",
+  contentType: "application/json",
+  headers: {
+    'X-Parse-Application-Id' : '2QY04sdetDGA8awp28CiHC7FUxfPnPpcbq7kJkvi',
+    'X-Parse-REST-API-Key' : 'CA4uyiDH68eLiW4OpES1SP5Mp4kGT0eWOjGDXOTe',
+  },
+  
+  method: 'GET',
+  
+  success: function (response) {
+    
+    var result="";
+ 
+    for(var i = 0; i < response.results.length; i++){
+      result += "playerName: " + response.results[i].playerName; 
+      result += "score: " + response.results[i].score; 
+      result += "updatedAt: " + response.results[i].updatedAt; 
+      result += "cheatMode: " + response.results[i].cheatMode; 
+      result += "createdAt: " + response.results[i].createdAt; 
+      result += "objectId: " + response.results[i].objectId; 
+      result += "</br>";
+    }
+    
+    document.getElementById("demo").innerHTML=result;
+   
+   
+  },
+  error: function (xhr, status) {
+    alert("handle - error: function (xhr, status) {")
+  }
+});</script-->
+</body>
+</html>
