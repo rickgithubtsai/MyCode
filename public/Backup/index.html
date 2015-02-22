@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>Play around with movies</h1>
+<div>
+  <p>
+  A fun place for me to try out the movie info.
+  </p>
+</div>
+<div>
+  <p id="demo"></p>
+</div>
+
+<div>
+  <p id="demo2"></p>
+</div>
+
+
+<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+<script>
+  $.ajax({
+  url:"https://www.kimonolabs.com/api/c9tl9hty?apikey=ujEfgdq1tcNGgdUk4yzKTQO7iDvEUPHW",
+  contentType: "application/json",
+  dataType: "jsonp",
+  success: function (response) {
+    var result= '<table border="1" cellspacing="1" cellpadding="5"><tr><td>Movie Title</td><td></td><td>Movie Length</td><td>Release Date</td></tr>';
+ 
+    for(var i = 0; i < response.results.collection1.length; i++){
+  
+       result += '<tr>';
+       result += "<td>" + response.results.collection1[i].ChtTitle.text + "</td>";
+       result += "<td>" + response.results.collection1[i].EngTitle.text + "</td>";
+       result += "<td>" + response.results.collection1[i].MovieLength + "</td>";
+       result += "<td>" + response.results.collection1[i].ReleaseDate + "</td>";
+       result += "</tr>";
+    }
+    result += '</table>';
+    document.getElementById("demo").innerHTML=result;
+   
+  },
+  error: function (xhr, status) {
+    alert("handle - error: function (xhr, status) {")
+  }
+});</script>
+</body>
+</html>
