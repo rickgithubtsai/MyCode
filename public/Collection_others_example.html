@@ -1,0 +1,198 @@
+<!doctype html>
+<head>
+  <meta charset="utf-8">
+
+  <title>My Parse App</title>
+  <meta name="description" content="My Parse App">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/styles.css">
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.1/underscore-min.js"></script>
+  
+  <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.3.5.min.js"></script>
+
+</head>
+
+<body>
+  
+  <div id="main">
+    <h1>You're ready to use Parse!</h1>
+
+    <p>Read the documentation and start building your JavaScript app:</p>
+
+    <ul>
+      <li><a href="https://www.parse.com/docs/js_guide">Parse JavaScript Guide</a></li>
+      <li><a href="https://www.parse.com/docs/js">Parse JavaScript API Documentation</a></li>
+    </ul>
+
+    <div style="display:none" class="error">
+      Looks like there was a problem saving the test object. Make sure you've set your application ID and javascript key correctly in the call to <code>Parse.initialize</code> in this file.
+    </div>
+
+    <div style="display:none" class="success">
+      <p>We've also just created your first object using the following code:</p>
+      
+        <code>
+       Hi
+        </code>
+    </div>
+  </div>
+  <input type="file" id="profilePhotoFileUpload">
+  <script type="text/javascript">
+    Parse.initialize("2QY04sdetDGA8awp28CiHC7FUxfPnPpcbq7kJkvi", "Lv8DpecCkQgSxXN6aENYgNnUY30ElZpLG50s7Xvw");
+    // Simple syntax to create a new subclass of Parse.Object.
+    var GameScore = Parse.Object.extend({
+      className: "GameScore"
+    });
+
+
+    var GameScoreCollection = Parse.Collection.extend({
+      model: GameScore
+    });
+     
+    var gameScoreCollection = new GameScoreCollection();
+     
+    // Construct a query to get the current user's todo items
+    var query = new Parse.Query(GameScore);
+    
+    gameScoreCollection.query = query;
+    gameScoreCollection.fetch();
+    console.log("Collection length for gameScoreCollection  "+ gameScoreCollection.length);
+
+
+/*
+
+    var query = new Parse.Query("GameScore");
+
+
+    var collection = query.collection();
+    collection.fetch({
+      success: function(results) {
+        console.log("inside fetch, Collection length here "+ results.length);
+        collection.each(function(object) {
+          console.warn(object);
+        });
+      },
+      error: function(results, error) {
+        // The collection could not be retrieved.
+      }
+    });
+
+    console.log("outside fetch, Collection length here "+ collection.length);
+*/
+    /*
+    var GameScore = Parse.Object.extend("GameScore");
+    var TestCollection = Parse.Collection.extend({
+      model: GameScore
+    });
+    
+    var collection = new TestCollection();
+    collection.fetch({
+      success: function(collection) {
+        console.log("inside fetch, Collection length here "+ collection.length);
+        collection.add([
+          {"playerName": "Duke"},
+          {"playerName": "Scarlett"}
+        ]);
+        console.log("inside fetch, Collection length here "+ collection.length);
+        collection.each(function(object) {
+          
+        });
+      },
+      error: function(collection, error) {
+        // The collection could not be retrieved.
+      }
+    });
+
+    console.log("outside fetch, Collection length here "+ collection.length);
+     */
+
+
+
+
+/*
+	query.find().then(function(results) {
+	  // Create a trivial resolved promise as a base case.
+	  var promise = Parse.Promise.as();
+    console.log("1st begin");
+    
+	  _.each(results, function(result) {
+	    // For each item, extend the promise with a function to delete it.
+	    console.log("1st, before promise.then: result="+result.get('playerName')+" score="+result.get('score'));  
+	    promise = promise.then(function() {
+	      // Return a promise that will be resolved when the delete is finished.
+	      result.set("MVP", false);  
+	      console.log("1st, inside promise.then: result="+result.get('playerName')+" score="+result.get('score'));  
+          return result.save();     
+	    });
+	    console.log("1st, after promise.then: result="+result.get('playerName')+" score="+result.get('score'));  
+	  });
+    console.log("1st finish");
+	  return promise;
+	 
+	}).then(function() {
+	  // Every comment was deleted.
+    console.log("1st inside then");
+	});
+	*/
+
+
+  /*query.find().then(function(results) {
+      // Create a trivial resolved promise as a base case.
+     var promise = Parse.Promise.as();
+     console.log("1st begin"); 
+     for(var index = 0; index < results.length; index++) {     
+        
+        var obj=results[index];
+        console.log("inside loop: index="+index);
+        console.log(obj.get("playerName"));
+        promise = promise.then(function() {
+          // Return a promise that will be resolved when the delete is finished.          
+          console.log("inside promise.then: index="+index);
+          console.log(obj.get("playerName"));
+          obj.set("MVP", false);              
+          return obj.save();     
+        }); 
+        console.log("inside loop: index="+index +" before end of this loop");
+      };
+      console.log("finish loop");
+      console.log("1st finish"); 
+      return promise;
+     
+    }).then(function(obj) {
+      // Every comment was deleted.
+       console.log("inside then(function(obj)");
+    });  
+*/
+  /*query.find().then(function(results) {
+      console.log("2nd begin");
+      // Collect one promise for each delete into an array.
+      var promises = [];
+      _.each(results, function(result) {
+        // Start this delete immediately and add its promise to the list.
+        result.set("MVP", true); 
+        console.log("2nd, before promise.then: result="+result.get('playerName')+" score="+result.get('score'));           
+        promises.push(
+          result.save().then(function(result){
+          console.log("HERE: "+
+            result.get('playerName')
+            );
+        })
+        );
+        console.log("2nd, after promise.then: result="+result.get('playerName')+" score="+result.get('score'));   
+      });
+      // Return a new promise that is resolved when all of the deletes are finished.
+      console.log("2nd finish"); 
+      return Parse.Promise.when(promises);
+     
+    }).then(function() {
+      console.log("2nd inside then");
+      // Every comment was deleted.
+  });
+*/
+
+  </script>
+</body>
+
+</html>
