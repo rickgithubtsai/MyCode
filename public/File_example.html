@@ -43,7 +43,7 @@
     Parse.initialize("2QY04sdetDGA8awp28CiHC7FUxfPnPpcbq7kJkvi", "Lv8DpecCkQgSxXN6aENYgNnUY30ElZpLG50s7Xvw");
     // Simple syntax to create a new subclass of Parse.Object.
 
-
+  
     
 
 /*
@@ -66,29 +66,53 @@
 
     console.log("outside fetch, Collection length here "+ collection.length);
 */
+	function showPhoto() {
+		var query = new Parse.Query("GameScore");        
+        query.equalTo("email", "rick@example.com");
+        query.find().then(function(obj) {        	
+        	if (obj.length>0){
+        		var profilePhoto = obj[0].get("playerPhoto");
+
+				$("#profileImg")[0].src = profilePhoto.url();			    
+			}
+			    
+		}, function(error) {
+		  // the save failed.
+		});	
+	
+	}	
     function uploadPhoto() {
       var fileUploadControl = $("#profilePhotoFileUpload")[0];
       if (fileUploadControl.files.length > 0) {
         var file = fileUploadControl.files[0];
         var name = "photo.jpg";       
         var parseFile = new Parse.File(name, file);
-        var GameScore = new Parse.Object("GameScore");
-        var query = new Parse.Query(GameScore);
-        query.equalTo("playerEmail", "rick@example.com");
-        GameScore.set("playerPhoto", parseFile);
-        GameScore.set("playerName", "Rick");
-        GameScore.save(null).then(function(obj) {
-          console.log("file saved: "+obj.id)
-          // The file has been saved to Parse.
-        }, function(error) {
-          console.log("file NOT saved, error: "+error)
-          // The file either could not be read, or could not be saved to Parse.
-        });;
+        
+	    var query = new Parse.Query("GameScore");        
+        query.equalTo("email", "rick@example.com");
+        query.find().then(function(obj) {        	
+        	if (obj.length>0){
+				obj[0].set("playerPhoto", parseFile);     
+			    return obj[0].save().then(function(result) {
+		          console.log("file saved: "+result.id)
+		          // The file [0]has been saved to Parse.
+		        }, function(error) {
+		    	    console.log("file NOT saved, error: "+error)
+		          // The file either could not be read, or could not be saved to Parse.
+		        });  
+			}
+			    
+		}, function(error) {
+		  // the save failed.
+		});
+        
       }   
     }
   </script>
   <input type="file" id="profilePhotoFileUpload">
-  <button type="button" onclick="uploadPhoto()">Click Me to Upload!</button>
+  <button type="button" onclick="uploadPhoto()">Click Me to Upload!</button>  
+  <button type="button" onclick="showPhoto()">Show photo!</button>
+  <img id="profileImg" >
 </body>
 
 </html>
